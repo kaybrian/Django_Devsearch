@@ -1,1 +1,17 @@
-<h2>Single Project</h2>
+{% extends "base.html" %} 
+{% load static %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <ul class="list-group">
+    <li class="list-group-item">Title : <a href="#">{{ project.title }}</a></li>
+    <li class="list-group-item">Descritpion : {{ project.description }}</a></li>
+     <li class="list-group-item">
+    {% for tag in project.tags.all %}
+   <span class="badge bg-warning text-dark">{{ tag }}</span>
+    {% endfor %}
+    </li>
+    </ul>
+  </div
+</div>
+{% endblock content %}
