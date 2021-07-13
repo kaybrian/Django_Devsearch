@@ -13,7 +13,7 @@ def Index(request):
 def project(request, pk):
     project = Project.objects.get(id=pk)
     context = {'project': project}
-    return render(request, 'projects/single-project.html', context)
+    return render(request, 'single-project.html', context)
 
 
 def Createproject(request):
@@ -26,7 +26,7 @@ def Createproject(request):
             return redirect('index')
 
     context = {'form': form}
-    return render(request, 'projects/projectform.html', context)
+    return render(request, 'form-template.html', context)
 
 
 def Updateproject(request, pk):
