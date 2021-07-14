@@ -14,29 +14,30 @@
         <div class="column column--1of3">
           <div class="card text-center">
             <div class="card__body dev">
-              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-edit"></i> Edit</a>
-              <img class="avatar avatar--xl dev__avatar" src="https://avatars.githubusercontent.com/u/33843378" />
-              <h2 class="dev__name">Dennis Ivanov</h2>
-              <p class="dev__title">Expirance FullStack Developer, Youtuber and Instructor</p>
-              <p class="dev__location">Based in Florida, USA</p>
+              <a class="tag tag--pill tag--main settings__btn" href="{% url 'edit-account' %}"><i class="im im-edit"></i> Edit</a>
+              <img class="avatar avatar--xl dev__avatar" src="{{ profile.profile_image.url }}" />
+              <h2 class="dev__name">{{ profile.name }}</h2>
+              <p class="dev__title">{{ profile.short_intro }}</p>
+              <p class="dev__location">Based in {{ profile.location }}</p>
               <ul class="dev__social">
-                <li>
-                  <a title="Github" href="#" target="_blank"><i class="im im-github"></i></a>
-                </li>
-                <li>
-                  <a title="Stackoverflow" href="#" target="_blank"><i class="im im-stackoverflow"></i></a>
-                </li>
-                <li>
-                  <a title="Twitter" href="#" target="_blank"><i class="im im-twitter"></i></a>
-                </li>
-                <li>
-                  <a title="LinkedIn" href="#" target="_blank"><i class="im im-linkedin"></i></a>
-                </li>
-                <li>
-                  <a title="Personal Website" href="#" target="_blank"><i class="im im-globe"></i></a>
-                </li>
+                {% if profile.social_social_github %}
+                            <li>
+                                <a title="Github" href="#" target="_blank"><i class="im im-github"></i></a>
+                            </li>
+                            {% endif %} {% if profile.social_twiter %}
+                            <li>
+                                <a title="Twitter" href="#" target="_blank"><i class="im im-twitter"></i></a>
+                            </li>
+                            {% endif %} {% if profile.social_youtube %}
+                            <li>
+                                <a title="youtube" href="#" target="_blank"><i class="im im-youtube"></i></a>
+                            </li>
+                            {% endif %} {% if profile.social_website %}
+                            <li>
+                                <a title="Personal Website" href="#" target="_blank"><i class="im im-globe"></i></a>
+                            </li>
+                            {% endif %}
               </ul>
-              <a href="#" class="btn btn--sub btn--lg">Send Message </a>
             </div>
           </div>
         </div>
@@ -44,12 +45,7 @@
           <div class="devInfo">
             <h3 class="devInfo__title">About Me</h3>
             <p class="devInfo__about">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ex illum ipsum iusto consequatur. Totam,
-              dolorum fugiat, debitis facere illo nostrum nesciunt maxime, deserunt enim voluptatibus modi natus velit
-              voluptatum. Dicta eritatis exercitationem ut quos a placeat obcaecati? Architecto illum!
-              <br />
-              Amet consectetur adipisicing elit. Veritatis exercitationem ut quos a placeat obcaecati? Architecto
-              illum, atque delectus nemo dolorem inventore ab facilis? Dolor placeat vel delectus ipsam ullam.
+            {{profile.bio}}
             </p>
           </div>
           <div class="settings">
@@ -58,12 +54,12 @@
           </div>
 
           <table class="settings__table">
+            {% for skill in skills  %}
             <tr>
               <td class="settings__tableInfo">
-                <h4>JavaScript</h4>
+                <h4>{{ skill.name }}</h4>
                 <p>
-                  Consectetur adipisicing elit. Natus nam dolore aut sed vitae eos architecto unde tempore
-                  exercitationem fugiat?...
+                  {{ skill.description }}
                 </p>
               </td>
               <td class="settings__tableActions">
@@ -72,31 +68,7 @@
                   Delete</a>
               </td>
             </tr>
-            <tr>
-              <td class="settings__tableInfo">
-                <h4>Python</h4>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, suscipit...</p>
-              </td>
-              <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-edit"></i> Edit</a>
-                <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-x-mark-circle-o"></i>
-                  Delete</a>
-              </td>
-            </tr>
-            <tr>
-              <td class="settings__tableInfo">
-                <h4>Django</h4>
-                <p>
-                  Amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod,
-                  odio Est, suscipit...
-                </p>
-              </td>
-              <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-edit"></i> Edit</a>
-                <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-x-mark-circle-o"></i>
-                  Delete</a>
-              </td>
-            </tr>
+            {% endfor %}
           </table>
 
           <div class="settings">
@@ -105,15 +77,15 @@
           </div>
 
           <table class="settings__table">
+            {% for project in projects %}
             <tr>
               <td class="settings__thumbnail">
-                <a href="single-project.html"><img src="images/project-a.png" alt="Project Thumbnail" /></a>
+                <a href="{% url 'project' project.id %}"><img src="{{ project.featured_image.url }}" alt="Project Thumbnail" /></a>
               </td>
               <td class="settings__tableInfo">
-                <a href="single-project.html">Yoga Studio Landing Page</a>
+                <a href="{% url 'project' project.id %}">{{ project.title }}</a>
                 <p>
-                  Consectetur adipisicing elit. Natus nam dolore aut sed vitae eos architecto unde tempore
-                  exercitationem fugiat?...
+                 {{ project.description | slice:"150" }}
                 </p>
               </td>
               <td class="settings__tableActions">
@@ -122,40 +94,8 @@
                   Delete</a>
               </td>
             </tr>
-            <tr>
-              <td class="settings__thumbnail">
-                <a href="single-project.html"><img src="images/project-b.png" alt="Project Thumbnail" /></a>
-              </td>
-              <td class="settings__tableInfo">
-                <a href="single-project.html">DevSearch Website UI Design</a>
-                <p>
-                  Consectetur adipisicing elit. Natus nam dolore aut sed vitae eos architecto unde tempore
-                  exercitationem fugiat?...
-                </p>
-              </td>
-              <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-edit"></i> Edit</a>
-                <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-x-mark-circle-o"></i>
-                  Delete</a>
-              </td>
-            </tr>
-            <tr>
-              <td class="settings__thumbnail">
-                <a href="single-project.html"><img src="images/project-a.png" alt="Project Thumbnail" /></a>
-              </td>
-              <td class="settings__tableInfo">
-                <a href="single-project.html">Portfolio Website Design</a>
-                <p>
-                  Consectetur adipisicing elit. Natus nam dolore aut sed vitae eos architecto unde tempore
-                  exercitationem fugiat?...
-                </p>
-              </td>
-              <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-edit"></i> Edit</a>
-                <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-x-mark-circle-o"></i>
-                  Delete</a>
-              </td>
-            </tr>
+            {% endfor %}
+            
           </table>
         </div>
       </div>

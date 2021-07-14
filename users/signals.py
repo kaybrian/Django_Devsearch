@@ -22,5 +22,16 @@ def deleteuser(sender, instance, **kwargs):
     user.delete()
 
 
+def updateuser(sender, instance, created, **kwargs):
+    profile = instance
+    user = profile.user
+    if created == False:
+        user.first_name = profile.name
+        user.username = profile.username
+        user.email = profile.email
+        user.save()
+
+
 post_save.connect(createprofile, sender=User)
+post_save.connect(updateuser, sender=Profile)
 post_delete.connect(deleteuser, sender=Profile)
