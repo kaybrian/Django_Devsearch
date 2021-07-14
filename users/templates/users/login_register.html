@@ -11,58 +11,33 @@
           <a href="/">
             <img src="{% static 'images/icon.svg' %}" alt="icon" />
           </a>
-          <h3>Account SignUp</h3>
+          <h3>Register </h3>
           <p>Create a new developer account</p>
         </div>
 
         <form action="{% url 'register' %}" method="POST" class="form auth__form">
         {% csrf_token %}
           <!-- Input:Text -->
-          <div class="form__field">
-            <label for="formInput#text">Full Name: </label>
-            <input
-              class="input input--text"
-              id="formInput#text"
-              type="text"
-              name="text"
-              placeholder="e.g. Dennis Ivanov"
-            />
-          </div>
 
-          <!-- Input:Email -->
-          <div class="form__field">
-            <label for="formInput#email">Email Address: </label>
-            <input
-              class="input input--email"
-              id="formInput#email"
-              type="email"
-              name="email"
-              placeholder="e.g. user@domain.com"
-            />
-          </div>
+          {% for field in form %}
+           <div class="form__field">
+            <label for="formInput#text">{{ field.label }} </label>
+            {{ field }}
 
-          <!-- Input:Password -->
-          <div class="form__field">
-            <label for="formInput#password">Password: </label>
-            <input
-              class="input input--password"
-              id="formInput#passowrd"
-              type="password"
-              name="password"
-              placeholder="••••••••"
-            />
+            {% comment %} {% if field.help_text %}
+            <small>{{ field.help_text }}</small>
+            {% endif %} {% endcomment %}
+
+            {% for error in field.errors %}
+                <p style="color:red;">{{ error}}</p>
+
+            {% endfor %}
           </div>
-          <!-- Input:Password -->
-          <div class="form__field">
-            <label for="formInput#confirm-password">Confirm Password: </label>
-            <input
-              class="input input--password"
-              id="formInput#confirm-passowrd"
-              type="password"
-              name="confirm-password"
-              placeholder="••••••••"
-            />
-          </div>
+          {% endfor %}
+
+         
+
+         
           <div class="auth__actions">
             <input class="btn btn--sub btn--lg" type="submit" value="Sign  In" />
           </div>
