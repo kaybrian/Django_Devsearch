@@ -3,7 +3,7 @@ from .models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import CustomUserForm, ProfileForm
+from .forms import CustomUserForm, ProfileForm, SkillForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -93,3 +93,34 @@ def editAccount(request):
             return redirect('profile')
     context = {'form': form}
     return render(request, 'users/profile-form.html', context)
+
+
+@login_required(login_url='login')
+def createSkill(request):
+    profile = request.user.profile
+    form = SkillForm()
+    if request.method == 'POST':
+        form = SkillForm(request.POST)
+        if form.is_valid():
+            skill = form.save(commit=False)
+            skill.owner = profile
+            skill.save()
+            return redirect('account')
+
+    context = {'form': form}
+    return render(request, 'users/skill_form.html', context)
+
+
+@login_required(login_url='login')
+def updateSkill(request, pk):
+    profile = request.user.profile
+    skil = profile.skill_set.get(id=pk)
+    form = SkillForm(instance=skil)
+    if request.method == 'POST':
+        form = SkillForm(request.POST, instance=skil)
+        if form.is_valid():
+            form.save()
+            return redirect('account')
+
+    context = {'form': form}
+    return render(request, 'users/skill_form.html', context)
