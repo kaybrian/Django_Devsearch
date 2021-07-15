@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import Profile
+from .models import Profile, Skill
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import CustomUserForm, ProfileForm, SkillForm
 from django.contrib.auth.decorators import login_required
+from .utils import searchProfiles
 
 
 def loginPage(request):
@@ -59,8 +60,8 @@ def registerUser(request):
 
 
 def profile(request):
-    profiles = Profile.objects.all()
-    context = {'profiles': profiles}
+    profiles, search_query = searchProfiles(request)
+    context = {'profiles': profiles, 'search_query': search_query}
     return render(request, 'users/profiles.html', context)
 
 
@@ -73,7 +74,7 @@ def userProfile(request, pk):
     return render(request, 'users/user-profile.html', context)
 
 
-@login_required(login_url='login')
+@ login_required(login_url='login')
 def userAccount(request):
     profile = request.user.profile
     skills = profile.skill_set.all()
@@ -82,7 +83,7 @@ def userAccount(request):
     return render(request, 'users/account.html', context)
 
 
-@login_required(login_url='login')
+@ login_required(login_url='login')
 def editAccount(request):
     profile = request.user.profile
     form = ProfileForm(instance=profile)
@@ -95,7 +96,7 @@ def editAccount(request):
     return render(request, 'users/profile-form.html', context)
 
 
-@login_required(login_url='login')
+@ login_required(login_url='login')
 def createSkill(request):
     profile = request.user.profile
     form = SkillForm()
@@ -112,7 +113,7 @@ def createSkill(request):
     return render(request, 'users/skill_form.html', context)
 
 
-@login_required(login_url='login')
+@ login_required(login_url='login')
 def updateSkill(request, pk):
     profile = request.user.profile
     skil = profile.skill_set.get(id=pk)
@@ -128,7 +129,7 @@ def updateSkill(request, pk):
     return render(request, 'users/skill_form.html', context)
 
 
-@login_required(login_url='login')
+@ login_required(login_url='login')
 def deleteSkill(request, pk):
     profile = request.user.profile
     skill = profile.skill_set.get(id=pk)
