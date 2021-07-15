@@ -37,7 +37,7 @@ def Createproject(request):
 @login_required(login_url="login")
 def Updateproject(request, pk):
     profile = request.user.profile
-    project = profile.profile_set.get(id=pk)
+    project = profile.project_set.get(id=pk)
     form = ProjectForm(instance=project)
 
     if request.method == 'POST':
@@ -47,15 +47,15 @@ def Updateproject(request, pk):
             return redirect('index')
 
     context = {'form': form}
-    return render(request, 'projects/projectform.html', context)
+    return render(request, 'form-template.html', context)
 
 
 @login_required(login_url="login")
 def deleteProject(request, pk):
     profile = request.user.profile
-    project = profile.profile_set.get(id=pk)
+    project = profile.project_set.get(id=pk)
     if request.method == 'POST':
         project.delete()
         return redirect('index')
     context = {'object': project}
-    return render(request, 'projects/deletetemplate.html', context)
+    return render(request, 'deletetemplate.html', context)

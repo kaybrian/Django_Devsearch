@@ -1,9 +1,0 @@
-{% extends 'projects/base.html' %} {% load static %} {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"</p>
-    <a class="btn btn-primary" href="{% url 'index' %}">
-        Cancel </a>
-    <input class="btn btn-danger" type="submit" value="Confirm">
-</form>
-{% endblock content %}
