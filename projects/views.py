@@ -5,11 +5,25 @@ from .forms import ProjectForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .utils import searchProject
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def Index(request):
     projects, search_query = searchProject(request)
-    context = {'projects': projects, 'search_query': search_query}
+    page = request.GET.get('page')
+    result = 3
+    paginator = Paginator(projects, result)
+    try:
+        projects = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        projects = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages()
+        projects = paginator.page(page)
+
+    context = {'projects': projects,
+               'search_query': search_query, 'paginator': paginator}
     return render(request, 'projects.html', context)
 
 
