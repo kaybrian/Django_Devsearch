@@ -62,12 +62,12 @@
             <li><a href="?page={{ projects.previous_page_number }}" class="btn btn--disabled">&#10094; Prev</a></li>
             {% endif %}
             
-                {% for page in paginator.page_range %}
-                {% if page == projects.number %}
-                <li><a href="?page={{ page }}" class="btn page-link btn--sub">{{ page }}</a></li>
-                {% else %}
-                <li><a href="?page={{ page }}" class="btn page-link">{{ page }}</a></li>
-                {% endif %}
+                {% for page in custom_range %}
+                    {% if page == projects.number %}
+                        <li><a href="?page={{ page }}" class="btn page-link btn--sub">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="?page={{ page }}" class="btn page-link">{{ page }}</a></li>
+                    {% endif %}
                 {% endfor %}
 
                 {% if projects.has_next%}

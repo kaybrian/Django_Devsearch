@@ -4,26 +4,15 @@ from .models import *
 from .forms import ProjectForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .utils import searchProject
+from .utils import searchProject, paginationProjects
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def Index(request):
     projects, search_query = searchProject(request)
-    page = request.GET.get('page')
-    result = 3
-    paginator = Paginator(projects, result)
-    try:
-        projects = paginator.page(page)
-    except PageNotAnInteger:
-        page = 1
-        projects = paginator.page(page)
-    except EmptyPage:
-        page = paginator.num_pages()
-        projects = paginator.page(page)
-
+    custom_range, projects = paginationProjects(request, projects, 6)
     context = {'projects': projects,
-               'search_query': search_query, 'paginator': paginator}
+               'search_query': search_query, 'custom_range': custom_range}
     return render(request, 'projects.html', context)
 
 
@@ -33,7 +22,7 @@ def project(request, pk):
     return render(request, 'single-project.html', context)
 
 
-@login_required(login_url="login")
+@ login_required(login_url="login")
 def Createproject(request):
     profile = request.user.profile
     form = ProjectForm()
@@ -50,7 +39,7 @@ def Createproject(request):
     return render(request, 'form-template.html', context)
 
 
-@login_required(login_url="login")
+@ login_required(login_url="login")
 def Updateproject(request, pk):
     profile = request.user.profile
     project = profile.project_set.get(id=pk)
@@ -66,7 +55,7 @@ def Updateproject(request, pk):
     return render(request, 'form-template.html', context)
 
 
-@login_required(login_url="login")
+@ login_required(login_url="login")
 def deleteProject(request, pk):
     profile = request.user.profile
     project = profile.project_set.get(id=pk)
