@@ -1,23 +1,22 @@
 
-//GET SEARCH FORM AND PAGE LINKS
+
+    
 let searchForm = document.getElementById('searchForm')
 let pageLinks = document.getElementsByClassName('page-link')
 
-//ENSURE SEARCH FORM EXISTS
-if (searchForm) {
-    for (let i = 0; pageLinks.length > i; i++) {
-        pageLinks[i].addEventListener('click', function (e) {
+if (searchForm){
+    for (let i=0;pageLinks.length >i; i++ ){
+        pageLinks[i].addEventListener('click', function (e){
             e.preventDefault()
-
-            //GET THE DATA ATTRIBUTE
+            //get the data attrs 
             let page = this.dataset.page
+            
+            //add the hidden search field to form 
+            searchForm.innerHTML += `<input value=${page} name="page" hidden /> `
 
-            //ADD HIDDEN SEARCH INPUT TO FORM
-            searchForm.innerHTML += `<input value=${page} name="page" hidden/>`
-
-
-            //SUBMIT FORM
+            // suubmit for 
             searchForm.submit()
         })
     }
+
 }

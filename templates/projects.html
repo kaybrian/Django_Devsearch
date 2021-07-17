@@ -1,14 +1,14 @@
 {% extends 'main.html' %} {% load static %}{% block content %}
 <!-- Main Section -->
 <main class="projects">
-    <section class="hero-section text-center">
+    <section  class="hero-section text-center">
         <div class="container container--narrow">
             <div class="hero-section__box">
                 <h2>Search for <span>Projects</span></h2>
             </div>
 
             <div class="hero-section__search">
-                <form class="form" action="{% url 'index' %}" method="get">
+                <form id="searchForm"  class="form" action="{% url 'index' %}" method="get">
                     <div class="form__field">
                         <label for="formInput#search">Search By Projects </label>
                         <input value="{{ search_query }}" class="input input--text" id="formInput#search" type="text" name="search_query" placeholder="Search by Project Title" />
@@ -56,3 +56,4 @@
     {% include 'pagination.html' with query_set=projects custom_range=custom_range %}
 </main>
 {% endblock content %}
+
