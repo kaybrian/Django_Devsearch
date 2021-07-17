@@ -78,7 +78,7 @@ def userProfile(request, pk):
     return render(request, 'users/user-profile.html', context)
 
 
-@ login_required(login_url='login')
+@login_required(login_url='login')
 def userAccount(request):
     profile = request.user.profile
     skills = profile.skill_set.all()
@@ -87,7 +87,7 @@ def userAccount(request):
     return render(request, 'users/account.html', context)
 
 
-@ login_required(login_url='login')
+@login_required(login_url='login')
 def editAccount(request):
     profile = request.user.profile
     form = ProfileForm(instance=profile)
@@ -100,7 +100,7 @@ def editAccount(request):
     return render(request, 'users/profile-form.html', context)
 
 
-@ login_required(login_url='login')
+@login_required(login_url='login')
 def createSkill(request):
     profile = request.user.profile
     form = SkillForm()
@@ -117,7 +117,7 @@ def createSkill(request):
     return render(request, 'users/skill_form.html', context)
 
 
-@ login_required(login_url='login')
+@login_required(login_url='login')
 def updateSkill(request, pk):
     profile = request.user.profile
     skil = profile.skill_set.get(id=pk)
@@ -133,7 +133,7 @@ def updateSkill(request, pk):
     return render(request, 'users/skill_form.html', context)
 
 
-@ login_required(login_url='login')
+@login_required(login_url='login')
 def deleteSkill(request, pk):
     profile = request.user.profile
     skill = profile.skill_set.get(id=pk)
@@ -145,10 +145,21 @@ def deleteSkill(request, pk):
     return render(request, 'deletetemplate.html', context)
 
 
-@ login_required(login_url='login')
+@login_required(login_url='login')
 def inbox(request):
     profile = request.user.profile
     messageRequests = profile.messages.all()
     unreadCount = messageRequests.filter(is_read=False).count()
     context = {'messageRequests': messageRequests, 'unreadCount': unreadCount}
     return render(request, 'users/inbox.html', context)
+
+
+@login_required(login_url='login')
+def viewmessage(request, pk):
+    profile = request.user.profile
+    message = profile.messages.get(id=pk)
+    if message.is_read == False:
+        message.is_read = True
+        message.save()
+    context = {'message': message}
+    return render(request, 'users/message.html', context)
