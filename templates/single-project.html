@@ -33,17 +33,27 @@
                         {{ project.vote_ratio }}% Postitive Feedback ({{ project.vote_total }} Vote{{project.vote_total|pluralize:"s" }})
                     </h5>
 
-                    <form class="form" action="{% url 'project' project.id%}" method="POST">
-                        {% csrf_token %}
-                        <!-- Textarea -->
-                        {% for field in form %}
-                        <div class="form__field">
-                            <label for="formInput#textarea">{{ field.label }}  </label>
-                            {{ field }}
-                        </div>
-                        {% endfor %}
-                        <input class="btn btn--sub btn--lg" type="submit" value="Comments" />
-                    </form>
+                    {% if request.user.profile.id in project.revieweers %}
+                        <p>You already submitted your review for this project </p>
+
+                    {% elif request.user.profile == project.owner %}
+                    <p>You cant review your own work </p>
+
+                    {% elif request.user.is_authenticated %}
+                        <form class="form" action="{% url 'project' project.id%}" method="POST">
+                            {% csrf_token %}
+                            <!-- Textarea -->
+                            {% for field in form %}
+                            <div class="form__field">
+                                <label for="formInput#textarea">{{ field.label }}  </label>
+                                {{ field }}
+                            </div>
+                            {% endfor %}
+                            <input class="btn btn--sub btn--lg" type="submit" value="Comments" />
+                        </form>
+                    {% else %}
+                        <a class="btn btn--sub btn--lg" href="{% url 'login' %}?next={{ request.path }}"> Please login to create a review</a>
+                    {% endif %}
 
 
                     <div class="commentList">

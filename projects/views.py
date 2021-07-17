@@ -21,14 +21,17 @@ def project(request, pk):
     project = Project.objects.get(id=pk)
     form = ReviewForm()
     if request.method == 'POST':
-        if form.is_valid(request.POST):
-            review = form.save(commit=False)
-            review.project = project
-            review.owner = request.user.profile
-            review.save()
+        form = ReviewForm(request.POST)
+        review = form.save(commit=False)
+        review.project = project
+        review.owner = request.user.profile
+        review.save()
+        messages.success(request, "Your Review has been Submitted")
+        project.getVoteCount
+        return redirect('project', pk=project.id)
 
-            # update project votecount
-            messages.success(request, "Your Review has been Submitted")
+        # update project votecount
+
     context = {'project': project, 'form': form}
     return render(request, 'single-project.html', context)
 
