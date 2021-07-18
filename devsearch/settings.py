@@ -126,9 +126,17 @@ MEDIA_URL = '/images/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtpEmailBackend'
-EMAIL_HOST = 'smtp.google.com'
-EMAIL_PORT = 587
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.google.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'bryodjango@gmail.com'
+# EMAIL_HOST_PASSWORD = 't3st1ngdj@ng0'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
