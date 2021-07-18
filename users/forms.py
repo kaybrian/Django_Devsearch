@@ -7,8 +7,7 @@ from .models import Profile, Skill, Message
 class CustomUserForm(UserCreationForm):
     class meta:
         model = User
-        fields = ['email',
-                  'username', 'first_name', 'password1', 'password2', ]
+        fields = '__all__'
         label = {
             'first_name': 'Name',
         }

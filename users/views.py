@@ -6,6 +6,8 @@ from django.contrib import messages
 from .forms import CustomUserForm, ProfileForm, SkillForm, MessageForm
 from django.contrib.auth.decorators import login_required
 from .utils import searchProfiles, paginationProfile
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 def loginPage(request):
