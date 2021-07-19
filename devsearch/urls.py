@@ -7,10 +7,12 @@ from django.conf.urls.static import static
 
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('projects/', include('projects.urls')),
     path('', include('users.urls')),
+    path("api/", include('api.urls')),
 
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name="reset_password.html"),
          name="reset_password"),
